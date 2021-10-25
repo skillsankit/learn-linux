@@ -1,0 +1,212 @@
+Redis Installation:
+
+    Adding repo:
+    $ sudo add-apt-repository ppa:redislabs/redis
+    $ sudo apt-get update
+
+    Installing
+    $ sudo apt-get install redis
+
+    Check Status
+    $ sudo systemctl status redis
+
+    Check Version
+    $ redis --version
+
+    Restart:
+    $ sudo systemctl restart redis.service
+
+    Enable auto start
+    $ sudo systemctl enable redis-server
+
+    Installing php redis extension
+    $ sudo apt install php-redis
+
+    $ sudo systemctl restart redis-server
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Change PHP Versions:
+
+    Adding repo link
+    $ sudo add-apt-repository ppa:ondrej/php
+    $ sudo apt-get update
+
+    Installing required extensions:
+    $ sudo apt install php7.2 libapache2-mod-php7.2 php7.2-mysql php7.2-common php7.2-cli php7.2-common php7.2-json php7.2-opcache php7.2-readline
+
+    Settting global php version
+    $ sudo update-alternatives --set php /usr/bin/php7.2
+    $ sudo update-alternatives --set phar /usr/bin/phar7.2
+    $ sudo update-alternatives --set phar.phar /usr/bin/phar.phar7.2
+
+    disabling specific php version
+    $ sudo a2dismod php7.4
+
+    Restarting apache
+    $ sudo systemctl restart apache2
+
+    enabling secific php version
+    $ sudo a2enmod php7.2
+
+    $ sudo systemctl restart apache2
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+Git set credentials:
+
+$ git config --global user.email "hari@gmail.com"
+$ git config --global user.name "Hari"
+$ git config --global user.password "kr"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+Install Mongodb:
+
+    Adding latest repo
+    $ wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+    $ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+
+    installing
+    $ sudo apt-get update
+    $ sudo apt-get install -y mongodb-org
+
+    $ sudo systemctl start mongod
+    if above failed try this
+    $ sudo systemctl daemon-reload
+
+    Check status
+    $ sudo systemctl status mongod
+
+    Enable Mongodb when system starts
+    $ sudo systemctl enable mongod
+
+    Stop Mongodb
+    $ sudo systemctl stop mongod
+
+    Restart Mongodb
+    $ sudo systemctl restart mongod
+
+    configuration file
+    $ sudo nano /etc/mongod.conf
+
+    Enter mongo 
+    $ mongosh
+
+    To disable telemetry
+    q~ disableTelemetry()
+
+    Enabling Authenticatoin
+
+    change to db admin
+    use admin
+
+    db.createUser({
+        user: "maxx",
+        pwd: "maxx@123", // or cleartext password
+        roles: [
+            { role: "userAdminAnyDatabase", db: "admin" },
+            { role: "readWriteAnyDatabase", db: "admin" }
+        ]
+    })
+
+
+    uninstalling
+    $ sudo service mongod stop
+    $ sudo apt-get purge mongodb-org*
+    $ sudo rm -r /var/log/mongodb
+    $ sudo rm -r /var/lib/mongodb
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Working with flask:
+
+    $ mkdir flask-test
+    $ cd flask-test
+
+Creating and activating virtual environment:
+
+    $ sudo apt-get install python3-venv
+
+    $ python3 -m venv venv
+
+    Activate virtual environment
+    $ . venv/bin/activate
+
+    Install Flask:
+    $ pip install flask
+
+    Deactivate virtual environment
+    $ deactivate
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Apache Live Errors:
+
+    $ cd /etc/apache2/
+    $ ls -a
+    $ tail -f error.log 
+    $ tail -f /var/log/apache2/error.log
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Composer Installation:
+
+    $ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    $ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+    $ composer
+    $ composer -v
+    $ composer self-update
+    $ sudo composer self-update
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+Postgresql Installatoin and configuration:
+
+    Installation
+    $ sudo apt-get install postgresql
+
+    Check status
+    $ sudo systemctl is-active postgresql
+    $ sudo systemctl is-enabled postgresql
+    $ sudo systemctl status postgresql
+    $ sudo pg_isready
+
+    Creating user and db
+    $ sudo su - postgres
+    $ psql
+    postgres=# CREATE USER tecmint WITH PASSWORD 'securep@wd';
+    postgres=# CREATE DATABASE tecmintdb;
+    postgres=# GRANT ALL PRIVILEGES ON DATABASE tecmintdb to tecmint;
+    postgres=# \q
+
+    $ sudo nano /etc/postgresql/12/main/pg_hba.conf
+
+    to restart postgres
+    $ sudo systemctl restart postgresql
+
+    Install PGadmin:
+
+    $ curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
+    $ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+    $ sudo apt install pgadmin4
+    $ sudo systemctl restart postgresql
+
+    To set up pgadmin
+    $ sudo /usr/pgadmin4/bin/setup-web.sh  -- Enter username and email(remember them)
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ffmpeg installation:
+
+    $ sudo apt-get install ffmpeg
+    $ ffmpeg
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Node Installation:
+
+    $ sudo apt-get install curl
+    $ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+    $ sudo apt install nodejs
+    $ node --version
+    $ npm --version

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Enter Mysql Username : "
+read uname
+echo "Enter Mysql Password : "
+read passwd
+
+for f in *.sql.gz
+   do
+     dbname=$(basename $f .sql.gz)
+     echo "Creating DB -- ${dbname}"
+     mysqladmin -u $uname -p$passwd create  $dbname
+     echo "DB Created -- ${dbname}"
+     #echo "Started Importing --- ${dbname}"
+     #pv | zcat $f | mysql -u $uname -p$passwd $filename
+     #zcat $f | pv --progress --size `gzip -l %s | sed -n 2p | awk '{print $2}'` --name '  Importing.. ' | mysql -u $uname -p$passwd $dbname
+     #zcat $f | pv -cN zcat | mysql -u$uname -p$passwd $dbname
+     pv --progress --name "DB -- ${dbname} Import in progress" -tea $f | zcat | mysql -u $uname -p$passwd $dbname
+     echo "Completed Importing ${f} to ${dbname}"
+done

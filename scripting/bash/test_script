@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "Enter Mysql Username : "
+read uname
+echo "Enter Mysql Password : "
+read passwd
+
+for f in *.sql
+   do
+     #filename=$(basename $f .sql.gz)
+     echo "Creating DB -- ${f}"
+     mysqladmin -u $uname -p$passwd create  $f
+     echo "DB Created -- ${f}"
+     echo "Started Importing --- ${f}"
+     pv $f | mysql -u $uname -p$passwd $filename
+     echo "Completed Importing --- ${f}"
+done

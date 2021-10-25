@@ -1,0 +1,5 @@
+# create three empty files
+
+touch test2.txt test1.txt test3.txt
+
+ls -alh

@@ -68,6 +68,38 @@ migrate specific table
 create resourceful controller and include model
 	$ php artisan make:controller CustomersController --model=Customer
 
+Create a middleware
+	$ php artisan make:middleware IsAdmin
+
+To see list of routes avaialble
+
+	$ php artisan route:list
+
+Create Rsourceful controller, model and include model
+	$ php artisan make:controller UsersController -r -m User
+
+Making migration table
+	$ php artisan make:migration create_categories_table
+
+This should run of we add manual hlper functions
+
+	$ composer dump-autoload
+
+Creating a sym link for storage
+
+	$ php artisan storage:link
+
+Clearing everything related to cache
+	$ php artisan clear-compiled 
+	$ php artisan optimize
+	$ php artisan clear:cache
+	$ php artisan route:clear
+	$ php artisan config:clear
+	$ php artisan config:cache
+
+Making a ploicy
+	$ php artisan make:policy CategoryPolicy -m Category
+
 ***************************************************************************************
 
 Codeigniter 4 *******************************************************************************
@@ -98,6 +130,9 @@ Seeding the db with seeder
 
 See routes list
 	$ php spark routes
+
+Make a filter
+	$ php spark make:filter Auth
 
 ***************************************************************************************
 
@@ -165,3 +200,38 @@ Nest JS Setup ******************************************************************
 
     Starting app 
     $ npm run start (or) $ nest start
+
+
+***************************************************************************************
+
+React Installation *******************************************************************************
+
+	$ npx create-react-app react-codes
+	$ cd react-codes/
+	$ npm start
+
+/////////////////////////////////////////////////////////////////////////////////////
+Vue JS
+
+Installing Vue cli:
+
+	$ sudo npm install -g @vue/cli
+
+Checking whether installed or not:
+
+	$ vue --version
+
+Working with Vuetify:
+
+	$ vue add vuetify
+	$ vue create my-app
+	$ cd my-app/
+	$ vue add vuetify
+
+Serving application
+
+	$ npm run serve
+
+Installing a package:
+
+	$ npm install vue-chartist

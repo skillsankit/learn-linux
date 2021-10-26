@@ -3,12 +3,21 @@ Update and upgrade, restart if needed
     $ sudo apt-get update
     $ sudo apt-get upgrade
 
+Some essential softwares:
+
     $ sudo apt-get install git
     $ sudo apt-get install curl
+    $ sudo apt-get install unzip
+    $ sudo apt-get install ubuntu-restricted-extras
+    $ sudo apt-get install rar
+    $ sudo apt-get install gnome-tweaks
+    $ sudo apt-get install python3-venv
+    $ sudo apt-get install gnome-tweaks
+    $ sudo apt-get install chromium-browser
 
 Install Apche2:
 
-    $ sudo apt install -y apache2 apache2-utils
+    $ sudo apt-get install -y apache2 apache2-utils
     $ sudo systemctl status apache2
     $ sudo systemctl start apache2
     $ sudo systemctl enable apache2
@@ -16,19 +25,33 @@ Install Apche2:
 
     Access http://localhost and check whether u are getting apache welcome page
 
+    Apache Conf Test:
+    $ sudo apache2ctl configtest
+    $ sudo apache2ctl -t 
+
+    To see apache live errors:
+    $ tail -f /var/log/apache2/error.log
+
+    Making index.php as default to load in Apache
+    $ sudo nano /etc/apache2/mods-enabled/dir.conf
+    And move index.php to front
+
 If you want to enable firewall
 
     $ sudo ufw app list
     $ sudo ufw allow in "Apache Full"
     $ sudo ufw status
 
-Giving permissions to user
+Giving permissions to user:
 
     $ sudo chown $USER /var/www/html
+    $ sudo chown www-data:www-data -R (need to test)
+    $ sudo chown www-data:www-data /var/www/html/ -R (need to test)
+    $ sudo chown -R $USER:$USER /var/www/html (need to test)
 
 Installing mariadb:
 
-    $ sudo apt install mariadb-server mariadb-client
+    $ sudo apt-get install mariadb-server mariadb-client
 
     $ sudo systemctl status mariadb
     $ sudo systemctl start mariadb
@@ -43,7 +66,7 @@ Installing mariadb:
 
     And press enter for all remaining questions
 
-Creating a localhost use with all privileges:
+Creating a localhost maraidb user with all privileges:
 
     $ sudo mariadb -u root 
     It asks for system root password enter it
@@ -53,10 +76,14 @@ Creating a localhost use with all privileges:
     GRANT ALL PRIVILEGES ON *.* TO 'maxx'@localhost IDENTIFIED BY 'maxx123';
     FLUSH PRIVILEGES;
 
+Importing db from command line:
+
+    $ mariadb -u root -p pandora < pandora.sql
+
 Installing PHP:
 
-    $ sudo apt install php libapache2-mod-php php-mysql php-common php-cli php-common php-json php-opcache php-readline
-    $ sudo apt install openssl php-common php-curl php-json php-mbstring php-mysql php-xml php-zip
+    $ sudo apt-get install php libapache2-mod-php php-mysql php-common php-cli php-common php-json php-opcache php-readline php-intl
+    $ sudo apt-get install openssl php-common php-curl php-json php-mbstring php-mysql php-xml php-zip php-cli
     $ sudo systemctl restart apache2
 
     Check php working or not, by creating php file in var/www/html with below code 
@@ -72,7 +99,7 @@ Installing PHPmyadmin:
 
     Next step in select dbconfig-common, select yes, and add a password
 
-    $ sudo apt install phpmyadmin
+    $ sudo apt-get install phpmyadmin
 
     $ sudo systemctl reload apache2
 
@@ -83,7 +110,7 @@ Installing PHPmyadmin:
 Installing Nodejs current LTS version: (number 14 may change)
     $ curl -sL https://deb.nodesource.com/setup_14.x | $ sudo -E bash -
     $ sudo apt-get update
-    $ sudo apt install nodejs
+    $ sudo apt-get install nodejs
     $ node -v
     $ npm -v
 
@@ -109,11 +136,16 @@ Enabling ssl (https)
 
 Enabling allow override All
 
-    $ cd /etc/apache2/sites-available/
+    $ cd /etc/apache2/
     $ sudo nano apache2.conf 
 
     change Allow override, None
     to Allow override, All
+
+Changing php.ini file
+
+    $ sudo gedit /etc/php/7.4/apache2/php.ini 
+    $ service apache2 restart
 
 Add the virutal domains and hosts
 
@@ -132,10 +164,6 @@ Add the virutal domains and hosts
     $ sudo a2ensite 000-default.conf
 
     $ sudo systemctl reload apache2
-
-
-$ sudo apt-get install gnome-tweaks
-$ sudo apt-get install chromium-browser
 
 Installing zsh:
 

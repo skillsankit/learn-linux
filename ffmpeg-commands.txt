@@ -1,0 +1,71 @@
+ffmpeg installation:
+
+    $ sudo apt-get install ffmpeg
+    $ ffmpeg
+
+To get video and audio details
+    $ ffprobe up.2009.2160p.uhd.bluray.x265-aviator.mkv 
+
+    To concat all the video files
+    $ ffmpeg -i "concat:VTS_01_1.VOB|VTS_02_1.VOB|VTS_02_2.VOB|VTS_02_3.VOB|VTS_02_4.VOB" -c:v copy -c:a copy output.mp4
+
+Audio and Video:
+
+    $ ffmpeg -i 1.mp4 -i 1.aac -c:v copy -c:a copy output.mp4
+    $ ffmpeg -i input.mp4 -i input.mp3 -c copy -map 0:v:0 -map 1:a:0 output.mp4
+    $ ffmpeg -i input.mp4 -i input.wav -c:v copy -map 0:v:0 -map 1:a:0 -c:a aac -b:a 192k output.mp4
+    $ ffmpeg -i 1.webm 1.aac -crf 0 -c:v copy video.mp4
+
+Adding watermark
+
+    $ ffmpeg -i "C:\test.mp4" -vf "drawtext=text='Place text here':x=10:y=H-th-10: fontfile=/path/to/font.ttf:fontsize=12:fontcolor=white: shadowcolor=black:shadowx=5:shadowy=5" "C:\test-watermark.mp4"
+
+Adding multiple audios to a video
+
+    $ ffmpeg -i 1.mp4 -i 1.m4a -i 2.m4a -map 0 -map 1 -map 2 -codec copy output.mkv
+
+
+Audio Encodings:
+
+    $ ffmpeg -i 1.aac -codec:a libmp3lame -b:a 320k -ss 00:00:06 -to 00:03:32 output.mp3
+    $ ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 2 output.mp3
+    $ ffmpeg -i input -acodec libopus -b:a bitrate -vbr on -compression_level 10 output
+    $ ffmpeg -i 11.opus -acodec libopus -codec:a libmp3lame -b:a 320k -ss 00:00:06 -to 00:03:32 output.mp3
+    $ ffmpeg -i Baitikochi.opus -q:a 0 -ss 00:00:06 -to 00:03:32 Baiti.mp3
+
+Printing images frame by frame in a video
+
+    $ ffmpeg -i 1.mp4 -r 1 -s WxH -f image2 img-%3d.jpeg
+
+Removing sound from video
+
+    $ ffmpeg -i example.mkv -c copy -an example-nosound.mkv
+
+Audio:
+
+Converting wav to falc
+    $ ffmpeg -i .\Ad.wav -f flac Ad.flac
+
+Converting 5.1 audio in stereo
+
+    $ ffmpeg -i 1.wav -c pcm_s16le -ac 2 "Audio 1 (-ac 2).wav"
+    $ ffmpeg -i 1.wav -c pcm_s16le -af "pan=stereo|FL < 1.0*FL + 0.707*FC + 0.707*BL|FR < 1.0*FR + 0.707*FC + 0.707*BR" "Audio 2 (ATSC).wav"
+    $ ffmpeg -i "1.wav" -c pcm_s16le -af "pan=stereo|FL=FC+0.30*FL+0.30*BL|FR=FC+0.30*FR+0.30*BR" "Audio 3 (Nightmode Dialogue Downmix).wav"
+    $ ffmpeg -i "1.wav" -c pcm_s16le -vol 425 -af "pan=stereo|FL=0.5*FC+0.707*FL+0.707*BL+0.5*LFE|FR=0.5*FC+0.707*FR+0.707*BR+0.5*LFE" "Audio 4 (Dave750 Downmix).wav"
+
+
+Extracting audio from video
+
+    $ ffmpeg -i '.\movie.mkv' -map 0:1 -c:a copy 5.1_DTS_Telugu.wav
+
+
+
+    $ ffmpeg.exe -ss 00:00:10  -t 5 -i "video.mp4" -ss 0:00:01 -t 5 -i "music.m4a" -map 0:v:0 -map 1:a:0 -y out.mp4 -- don't know
+
+
+
+Essential Ripping Softwares:
+
+Handbrake
+MakeMKV
+MKV ToolNIX

@@ -8,13 +8,13 @@ Redis Installation:
     $ sudo apt-get install redis
 
     Check Status
-    $ sudo systemctl status redis
+    $ sudo systemctl status redis-server
 
     Check Version
-    $ redis --version
+    $ redis-server --version
 
     Restart:
-    $ sudo systemctl restart redis.service
+    $ sudo systemctl restart redis-server
 
     Enable auto start
     $ sudo systemctl enable redis-server
@@ -195,13 +195,6 @@ Postgresql Installatoin and configuration:
     To set up pgadmin
     $ sudo /usr/pgadmin4/bin/setup-web.sh  -- Enter username and email(remember them)
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ffmpeg installation:
-
-    $ sudo apt-get install ffmpeg
-    $ ffmpeg
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Node Installation:
 
@@ -210,3 +203,13 @@ Node Installation:
     $ sudo apt install nodejs
     $ node --version
     $ npm --version
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Httrack
+
+    $ sudo apt-get install httrack
+    $ httrack https:/test.com/index.html
+
+    $ httrack https:/test.com/index.html -%F ""
+

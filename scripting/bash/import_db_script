@@ -18,3 +18,14 @@ for f in *.sql.gz
      pv --progress --name "DB -- ${dbname} Import in progress" -tea $f | zcat | mysql -u $uname -p$passwd $dbname
      echo "Completed Importing ${f} to ${dbname}"
 done
+
+# for f in *.sql.gz
+#    do
+#      filename=$(basename $f .sql.gz)
+#      echo "Creating DB -- ${filename}"
+#      #mysqladmin -u $uname -p$passwd create  $filename
+#      #echo "DB Created -- ${filename}"
+#      #echo "Started Importing ${f} to ${filename}"
+#      #zcat $f | mysql -u $uname -p$passwd $filename
+#      #echo "Completed Importing ${f} to ${filename}"
+# done

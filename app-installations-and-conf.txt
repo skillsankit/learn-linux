@@ -5,7 +5,7 @@ Redis Installation:
     $ sudo apt-get update
 
     Installing
-    $ sudo apt-get install redis
+    $ sudo apt-get install redis redis-server
 
     Check Status
     $ sudo systemctl status redis-server
@@ -20,9 +20,8 @@ Redis Installation:
     $ sudo systemctl enable redis-server
 
     Installing php redis extension
-    $ sudo apt install php-redis
+    $ sudo apt-get install php-redis
 
-    $ sudo systemctl restart redis-server
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +32,7 @@ Change PHP Versions:
     $ sudo apt-get update
 
     Installing required extensions:
-    $ sudo apt install php7.2 libapache2-mod-php7.2 php7.2-mysql php7.2-common php7.2-cli php7.2-common php7.2-json php7.2-opcache php7.2-readline
+    $ sudo apt-get install php7.2 libapache2-mod-php7.2 php7.2-mysql php7.2-common php7.2-cli php7.2-common php7.2-json php7.2-opcache php7.2-readline
 
     Settting global php version
     $ sudo update-alternatives --set php /usr/bin/php7.2
@@ -55,9 +54,9 @@ Change PHP Versions:
 
 Git set credentials:
 
-$ git config --global user.email "hari@gmail.com"
-$ git config --global user.name "Hari"
-$ git config --global user.password "kr"
+    $ git config --global user.email "hari@gmail.com"
+    $ git config --global user.name "Hari"
+    $ git config --global user.password "kr"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -188,19 +187,22 @@ Postgresql Installatoin and configuration:
     Install PGadmin:
 
     $ curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
-    $ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
-    $ sudo apt install pgadmin4
+    $ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt-get update'
+    $ sudo apt-get install pgadmin4
     $ sudo systemctl restart postgresql
 
     To set up pgadmin
     $ sudo /usr/pgadmin4/bin/setup-web.sh  -- Enter username and email(remember them)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Node Installation:
 
     $ sudo apt-get install curl
-    $ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-    $ sudo apt install nodejs
+    $ curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+    $ sudo bash nodesource_setup.sh
+    $ sudo apt-get update
+    $ sudo apt-get install nodejs
     $ node --version
     $ npm --version
 

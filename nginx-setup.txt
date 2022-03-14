@@ -1,0 +1,109 @@
+NGINX Server Installation:
+
+    Note: disable other servers, if they are installed and active
+
+    $ sudo apt-get update
+    $ sudo apt-get upgrade
+
+    $ sudo apt install nginx
+
+    terminal console messafe after install
+        Creating config file /etc/php/7.4/fpm/php.ini with new version
+        NOTICE: Not enabling PHP 7.4 FPM by default.
+        NOTICE: To enable PHP 7.4 FPM in Apache2 do:
+        NOTICE: a2enmod proxy_fcgi setenvif
+        NOTICE: a2enconf php7.4-fpm
+        NOTICE: You are seeing this message because you have apache2 package installed.
+        Created symlink /etc/systemd/system/multi-user.target.wants/php7.4-fpm.service → /lib/systemd/system/php7.4-fpm.service.
+        invoke-rc.d: could not determine current runlevel
+        Setting up php-fpm (2:7.4+75) ...
+        Processing triggers for man-db (2.9.1-1) ...
+        Processing triggers for systemd (245.4-4ubuntu3.15) ...
+        Processing triggers for php7.4-fpm (7.4.3-4ubuntu2.10) ...
+        invoke-rc.d: could not determine current runlevel
+        NOTICE: Not enabling PHP 7.4 FPM by default.
+        NOTICE: To enable PHP 7.4 FPM in Apache2 do:
+        NOTICE: a2enmod proxy_fcgi setenvif
+        NOTICE: a2enconf php7.4-fpm
+        NOTICE: You are seeing this message because you have apache2 package installed.
+
+    $ sudo ufw app list
+    $ sudo ufw allow 'Nginx Full'
+    $ sudo ufw status
+
+
+    $ sudo service status nginx
+    $ sudo service nginx status
+    $ sudo service nginx start
+    $ sudo service nginx status
+
+    Install php fpm
+    $ sudo apt install php-fpm
+    $ sudo service php7.4-fpm status
+
+    start php-fpm, if it is not started
+    $ sudo service php7.4-fpm start
+    $ sudo service php7.4-fpm status
+
+    Creating virutal hosts
+    $ sudo mkdir /var/www/html/test.nginx.server.com
+
+    $ sudo nano /etc/nginx/sites-available/test.nginx.server.com
+
+        vhost config
+
+        ////////////////////////////////////
+            server {
+                listen 80;
+                server_name test.nginx.server.com www.test.nginx.server.com;
+                root /var/www/test.nginx.server.com/public;
+
+                index index.html index.htm index.php;
+
+                location / {
+                    try_files $uri $uri/ =404;
+                }
+
+                location ~ \.php$ {
+                    include snippets/fastcgi-php.conf;
+                    fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+                }
+
+                location ~ /\.ht {
+                    deny all;
+                }
+
+            }
+        ////////////////////////////////
+
+    $ sudo ln -s /etc/nginx/sites-available/test.nginx.server.com /etc/nginx/sites-enabled/
+
+    removing the default sites file;
+    $ sudo unlink /etc/nginx/sites-enabled/default
+
+    test the vhosts file syntax
+    $ sudo nginx -t
+
+    If there are ant errors correct the vhosts file you have created
+    $ sudo nano /etc/nginx/sites-available/test.nginx.server.com
+
+    enable the vhost
+    $ sudo ln -s /etc/nginx/sites-available/test.nginx.server.com /etc/nginx/sites-enabled/
+
+    reload nginx
+    $ sudo service nginx reload
+
+    test nginx server 
+    $ cd /var/www/test.nginx.server.com/
+    $ sudo mkdir public
+    $ cd public
+    $ sudo nano index.php
+
+    Open http://test.nginx.server.com/ in your browser
+
+    $ sudo nano /etc/hosts
+    $ ps aux | grep php-fpm
+    $ sudo service nginx status
+
+    to see nginx errors
+    $ sudo tail -30 /var/log/nginx/error.log

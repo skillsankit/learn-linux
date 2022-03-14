@@ -188,20 +188,45 @@ React Installation
 	Start react app 
 		$ npm start  (to be run root folder of project)
 
-/////////////////////////////////////////////////////////////////////////////////////
-Vue JS
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Installing Vue cli:
-		$ sudo npm install -g @vue/cli
+VueJS Setup:
 
-	Checking whether vue cli is installed or not:
-		$ vue --version
+    Install vue cli globally
+    	$ npm install -g @vue/cli
 
-	Working with Vuetify:
-		$ vue add vuetify
+    Only for windows (if you get any errors, after running above command)
+    	$ set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+    	$ Get-ExecutionPolicy
+    	$ Get-ExecutionPolicy -list
 
-	Starting application
-		$ npm run serve
+    check vue cli version
+    	$ vue -- version
 
-	Installing a package:
-		$ npm install vue-chartist
+    create new vue app
+    	$ vue create cart-app
+    	$ cd cart-app
+
+    start server
+    	$ npm run serve
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+Flask setup:
+
+    	$ mkdir flask-test
+    	$ cd flask-test
+
+	Creating and activating virtual environment:
+    	$ sudo apt-get install python3-venv
+    	$ python3 -m venv venv
+
+    Activate virtual environment
+    	$ . venv/bin/activate
+
+    Install Flask:
+    	$ pip install flask
+
+    Deactivate virtual environment
+    	$ deactivate

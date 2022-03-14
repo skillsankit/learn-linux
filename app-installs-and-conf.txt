@@ -116,28 +116,6 @@ Install Mongodb:
     $ sudo rm -r /var/log/mongodb
     $ sudo rm -r /var/lib/mongodb
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Working with flask:
-
-    $ mkdir flask-test
-    $ cd flask-test
-
-Creating and activating virtual environment:
-
-    $ sudo apt-get install python3-venv
-
-    $ python3 -m venv venv
-
-    Activate virtual environment
-    $ . venv/bin/activate
-
-    Install Flask:
-    $ pip install flask
-
-    Deactivate virtual environment
-    $ deactivate
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Apache Live Errors:
@@ -215,3 +193,20 @@ Httrack
 
     $ httrack https:/test.com/index.html -%F ""
 
+/////////////////////////////////////////////////////
+
+WSL Commands:
+    To list all running services
+    wsl --list --verbose
+
+    To stop all services
+    wsl --shutdown
+
+    TO know Ip address
+    wsl hostname -I
+
+    TO shutdown specific service
+    wsl -t 'DISTRO-NAME'
+
+    Restarting wsl
+    Get-Service LxssManager | Restart-Service

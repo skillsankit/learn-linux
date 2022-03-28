@@ -1,0 +1,21 @@
+Adding repo:
+    $ sudo add-apt-repository ppa:redislabs/redis
+    $ sudo apt-get update
+
+Installing
+    $ sudo apt-get install redis redis-server
+
+Check Status
+    $ sudo systemctl status redis-server
+
+Check Version
+    $ redis-server --version
+
+Restart:
+    $ sudo systemctl restart redis-server
+
+Enable auto start
+    $ sudo systemctl enable redis-server
+
+Installing php redis extension
+    $ sudo apt-get install php-redis

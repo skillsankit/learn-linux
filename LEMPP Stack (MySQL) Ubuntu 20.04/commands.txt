@@ -1,0 +1,170 @@
+LEMP STACK:
+
+Nginx Server:
+
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get install nginx
+sudo service nginx status
+sudo service nginx start
+sudo service nginx status
+
+Visit http://localhost and check
+
+FireWall:
+
+sudo ufw allow OpenSSH
+sudo ufw allow 'Nginx Full'
+sudo ufw enable
+sudo ufw status
+
+Mysql (8) Installation:
+
+sudo apt-get update && sudo apt-get install mysql-server
+sudo service mysql status
+sudo service mysql start
+sudo service mysql status
+
+Configure MySQL Security
+sudo mysql_secure_installation
+
+Step 1: Press enter
+Step 2:
+
+        Please set the password for root here.
+
+        New password:
+
+        Re-enter new password:
+
+Step 3: Press y and enter
+
+Step 4: Press y and enter
+
+Step 5: Press y and enter
+
+Step 6: Press y and enter
+
+sudo mysql
+
+
+PHP Installation:
+
+sudo apt-get install php php-fpm libapache2-mod-php php-mysql php-common php-cli php-opcache php-readline php-intl php-curl php-mbstring php-xml php-zip php-redis php-mongo
+
+Starting php-fpm service
+
+sudo service php7.4-fpm stop
+sudo service php7.4-fpm start
+sudo service php7.4-fpm status
+sudo service php7.4-fpm restart
+
+Configure nginx to load php:
+
+sudo nano /etc/nginx/sites-available/default
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+
+        # Add index.php to the list if you are using PHP
+        index index.php index.html index.htm index.nginx-debian.html;  ********* add index.php
+
+        #server_name localhost;
+
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+        }
+
+        # pass PHP scripts to FastCGI server
+        #
+        location ~ \.php$ {            *************** uncomment this line
+                include snippets/fastcgi-php.conf;
+        #
+        #       # With php-fpm (or other unix sockets):
+
+                fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;             *********** in this line
+
+        #       # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        }                           *************** uncomment this line
+}
+
+
+
+Installing phpmyadmin:
+
+sudo apt-get install phpmyadmin
+
+Giving sim link to phpmyadmin stallation directory
+sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+
+Creating user:
+
+Creating Mysql user:
+sudo mysql;
+
+CREATE USER 'maxx'@'localhost' IDENTIFIED BY 'maxx123';
+GRANT ALL PRIVILEGES ON *.* TO 'maxx'@'localhost';
+FLUSH PRIVILEGES;
+
+visit http://localhost/phpmyadmin and login with username and password of mysql user created above commands
+
+
+securing phpmyadmin by chaging url:
+
+sudo mv /var/www/html/phpmyadmin /var/www/html/mystorage.local
+
+sudo mv /var/www/html/mystorage.local /var/www/html/phpmyadmin
+
+VHost Creation:
+
+Copy default conf 
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/demo.app.local
+
+sudo nano /etc/nginx/sites-available/demo.app.local
+
+        remove default_server
+
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        and make it like this below
+        listen 80;
+        listen [::]:80;
+
+        set the root
+        root /var/www/html/demo-app/public/;
+
+        give server_name
+        server_name demo.app.local www.demo.app.local;
+
+Enable vhost 
+sudo ln -s /etc/nginx/sites-available/demo.app.local /etc/nginx/sites-enabled/
+
+Visit http://demo.app.local
+
+
+// TO enable navigation to different pages
+
+sudo nano /etc/nginx/sites-available/demo.app.local
+
+        Change
+        
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+        }
+
+        To
+                location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ /index.php?$query_string;    *****************
+        }

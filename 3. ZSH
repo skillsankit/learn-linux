@@ -1,0 +1,26 @@
+Installing ZSH
+
+    $ sudo apt-get install zsh
+    $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+make zsh as default in terminal (restart needed after)
+    $ chsh -s $(which zsh) (or) $ chsh -s /usr/bin/zsh
+
+To know zsh version
+    $ zsh --version
+
+To know which shell we are currently using
+    $ echo $SHELL
+
+To revert back to bash (restart needed after)
+    $ chsh -s $(which bash) (or) $ chsh -s /usr/bin/bash
+
+Installing zsh extensions:
+    $ git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+    $ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+
+    Open ~/.zshrc and go to line where you find "plugins=(git)"
+    $ nano ~/.zshrc
+
+    Add to plugins: with space like below and save the file. close and reopen terminal
+    plugins=(git zsh-autosuggestions zsh-syntax-highlighting)

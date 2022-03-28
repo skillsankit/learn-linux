@@ -1,0 +1,28 @@
+Install Git:
+    $ sudo apt-get install git
+
+New empty repository:
+
+    $ git init
+    $ git add .
+    $ git commit -m "First Commit"
+    $ git remote add origin https://github.com/HariK77/lara-blog-api.git
+    $ git push -u origin master
+    echo "# simple-php-app" >> README.md
+
+    $ git clone https://github.com/HariK77/learn-php.git
+
+    $ git status
+    $ git reset --hard head
+
+    $ git push -u origin master --force
+
+
+    $ git config user.email "test@gmail.com"
+    $ git config user.name "HariK77"
+
+Git set credentials:
+
+    $ git config --global user.email "hari@gmail.com"
+    $ git config --global user.name "Hari"
+    $ git config --global user.password "kr"

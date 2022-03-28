@@ -1,0 +1,8 @@
+Install Httrack
+    $ sudo apt-get install httrack
+
+Clone website
+    $ httrack https:/test.com/index.html
+
+Clone website without footer
+    $ httrack https:/test.com/index.html -%F ""

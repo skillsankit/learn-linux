@@ -1,0 +1,31 @@
+Installation
+    $ sudo apt-get install postgresql
+
+Check status
+    $ sudo systemctl is-active postgresql
+    $ sudo systemctl is-enabled postgresql
+    $ sudo systemctl status postgresql
+    $ sudo pg_isready
+
+Creating user and db
+    $ sudo su - postgres
+    $ psql
+    postgres=# CREATE USER tecmint WITH PASSWORD 'securep@wd';
+    postgres=# CREATE DATABASE tecmintdb;
+    postgres=# GRANT ALL PRIVILEGES ON DATABASE tecmintdb to tecmint;
+    postgres=# \q
+
+    $ sudo nano /etc/postgresql/12/main/pg_hba.conf
+
+to restart postgres
+    $ sudo systemctl restart postgresql
+
+Install PGadmin:
+
+    $ curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
+    $ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt-get update'
+    $ sudo apt-get install pgadmin4
+    $ sudo systemctl restart postgresql
+
+To set up pgadmin
+    $ sudo /usr/pgadmin4/bin/setup-web.sh  -- Enter username and email(remember them)

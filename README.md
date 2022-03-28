@@ -1,2 +1,2 @@
 # learn-linux
-A simple repo for linux commands
+A simple repo which consists of installing and configuration of LAMPP Stack and LEMPP Stack, Some bash and python scripts, Some helpful linux commands and installation of packages like ZSH, Composer, Redis, MongoDB and PostgresSQL etc., And also installation of frameworks like laravel, react, vue.js, codeigniter and symfony etc.,

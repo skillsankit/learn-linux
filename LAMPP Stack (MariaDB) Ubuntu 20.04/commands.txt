@@ -1,135 +1,234 @@
-Update and upgrade, restart if needed
+/**
+ * Instructions :
+ * commands having `*` at start are mandatory commands to run.
+ * All the commands should be ran in order and it is assumed that you have fresh installation of ubuntu 20.04
+ * If you have done some setup or facing some issue, go to the respective section where you are having issue.
+ * copy only the part after $ sign in every command.
+ * Other commands are to check respective status of the respective installation.
+ * All the lines that have `$` sign infront are commands.
+ */
 
-    $ sudo apt-get update
-    $ sudo apt-get upgrade
+//////////////////////////////////////////////////////////////////////
+Open terminal by pressing `Ctrl + Alt + t`
+
+Run apt update and apt upgrade
+
+    * $ sudo apt-get update
+    * $ sudo apt-get upgrade
+
+    Restart system if possible
 
 Some essential packages:
 
-    $ sudo apt-get install curl
-    $ sudo apt-get install unzip
-    $ sudo apt-get install rar
+    * $ sudo apt-get install curl
+    * $ sudo apt-get install unzip
+    * $ sudo apt-get install rar
 
-Install Apche2:
+/////////////////////////////////////////////////////////////////////
+Installing Apache2 & some helpful commands:
 
-    $ sudo apt-get install -y apache2 apache2-utils
-    $ sudo systemctl status apache2
-    $ sudo systemctl start apache2
-    $ sudo systemctl enable apache2
-    $ apache2 -v
+    To install apache2
+        * $ sudo apt-get install -y apache2 apache2-utils
 
-    Access http://localhost and check whether u are getting apache welcome page
+    To know whether apache2 installed correctly
 
-    Apache Conf Test:
-    $ sudo apache2ctl configtest
-    $ sudo apache2ctl -t 
+        Visit http://localhost in browser and check whether u are getting apache welcome page
 
-    To see apache live errors:
-    $ tail -f /var/log/apache2/error.log
+    To check status whehter apache2 is running or not
+        $ sudo systemctl status apache2
 
-    Enabling allow override All
+    To start apache2 if it is not started
+        $ sudo systemctl start apache2
 
-    $ cd /etc/apache2/
-    $ sudo nano apache2.conf 
+    To start apache2 automatically, when system starts
+        $ sudo systemctl enable apache2
+    
+    Enabling allow override All globally for apache2 (to remove index.php from url's)
 
-    change Allow override, None
-    to Allow override, All
+        * $ cd /etc/apache2/
+        * $ sudo nano apache2.conf
+
+        find text "AllowOverride, None" and change it to "AllowOverride, All"
+
+        Before changing:
+            <Directory /var/www/>
+                Options Indexes FollowSymLinks
+                AllowOverride None
+                Require all granted
+            </Directory>
+
+        After changing:
+            <Directory /var/www/>
+                Options Indexes FollowSymLinks
+                AllowOverride All
+                Require all granted
+            </Directory>
+
+        Enable Mod rewrite:
+
+        * $ sudo a2enmod rewrite
+        * $ sudo systemctl restart apache2
+
 
     Making index.php as default to load in Apache
-    $ sudo nano /etc/apache2/mods-enabled/dir.conf
-    And move index.php to front
 
-If you have firewall enabled
+        * $ sudo nano /etc/apache2/mods-enabled/dir.conf
 
-    $ sudo ufw app list
-    $ sudo ufw allow in "Apache Full"
-    $ sudo ufw status
+        And move index.php to front like below
 
-Giving permissions to user:
+        <IfModule mod_dir.c>
+                DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+        </IfModule>
 
-    $ sudo chown $USER /var/www/html
-    $ sudo chown www-data:www-data -R (need to test)
-    $ sudo chown www-data:www-data /var/www/html/ -R (need to test)
-    $ sudo chown -R $USER:$USER /var/www/html (need to test)
+    Some helpful commands to check apache2
 
-Installing mariadb:
+        To know apache2 version
+            $ apache2 -v
 
-    $ sudo apt-get install mariadb-server mariadb-client
+        To test all apache2 configuration files are correcr:
+            $ sudo apache2ctl configtest
+            $ sudo apache2ctl -t 
 
-    $ sudo systemctl status mariadb
-    $ sudo systemctl start mariadb
-    $ sudo systemctl enable mariadb
+        To see apache2 live errors:
+            $ tail -f /var/log/apache2/error.log
 
-    $ sudo mysql_secure_installation
+/////////////////////////////////////////////////////////////////////
+If you have firewall enabled, U need allow apache2 connections
 
-        Instructions:
-        1. Enter system root password
-        2. Type 'n' and press enter
-        3. Type 'Y' and press enter
-        4. Type 'Y' and press enter
-        5. Type 'Y' and press enter
-        6. Type 'Y' and press enter
+    Check if firewall is enabled
+        * $ sudo ufw status
+    
+    If it is not active, no need to run below commands
+        $ sudo ufw app list
+        $ sudo ufw allow in "Apache Full"
 
-Creating a localhost maraidb user with all privileges:
+/////////////////////////////////////////////////////////////////////
+Giving permissions to logged in system user(this command helps you give write permissions):
 
-    $ sudo mariadb -u root -p
+    * $ sudo chown $USER /var/www/html
+
+    (Optional, Not needed)
+        $ sudo chown www-data:www-data -R (need to test)
+        $ sudo chown www-data:www-data /var/www/html/ -R (need to test)
+        $ sudo chown -R $USER:$USER /var/www/html (need to test)
+
+/////////////////////////////////////////////////////////////////////
+Installing mariadb and helpful commands:
+
+    * $ sudo apt-get install mariadb-server mariadb-client
+
+    To status of MariaDB, whehter it is running or not
+        $ sudo systemctl status mariadb
+
+    To start MariaDB, if is not started by default
+        $ sudo systemctl start mariadb
+
+    To start MariaDB on system startup
+        $ sudo systemctl enable mariadb
+
+    To completed MariaDB installation
+
+        When you run this command, it will ask for series of questions. simply enter as mentioned in below stpes
+        * $ sudo mysql_secure_installation
+
+            Steps:
+            1. Enter system root password
+            2. Type 'n' and press enter
+            3. Type 'Y' and press enter
+            4. Type 'Y' and press enter
+            5. Type 'Y' and press enter
+            6. Type 'Y' and press enter
+
+
+Creating a localhost maraidb user with all privileges (to login with phpmyadmin, and to connect to databases):
+
+    * $ sudo mariadb -u root -p
+
     It asks for system root password enter it
+
     Add a mysql user to authenticate to db from localhost usng below mysql quries
+    Here "maxx" is username and "maxx123" is the password, change it according to your wish, and save them in some text file
 
     CREATE USER 'maxx'@localhost IDENTIFIED BY 'maxx123';
     GRANT ALL PRIVILEGES ON *.* TO 'maxx'@localhost IDENTIFIED BY 'maxx123';
     FLUSH PRIVILEGES;
 
-Importing db from command line:
-
-    $ mariadb -u root -p pandora < pandora.sql
-
+/////////////////////////////////////////////////////////////////////
 Installing PHP:
 
-    $ sudo apt-get install php libapache2-mod-php php-mysql php-common php-cli php-common php-json php-opcache php-readline php-intl
-    $ sudo apt-get install openssl php-common php-curl php-json php-mbstring php-mysql php-xml php-zip php-cli
-    $ sudo systemctl restart apache2
+    To install PHP and required modules:
 
-    Check php working or not, by creating php file in var/www/html with below code 
-    <?php phpinfo(); ?>
+        * $ sudo apt-get install openssl php libapache2-mod-php php-curl php-mysql php-common php-cli php-common php-json php-opcache php-readline php-intl php-mbstring php-xml php-zip php-cli
+        * $ sudo systemctl restart apache2
 
+    Check php is working or not, by creating php file in var/www/html with below code 
+    * $ sudo nano /var/www/html/info.php
+
+        Copy the below text:
+
+            <?php phpinfo(); ?>
+
+        Press `Ctrl + x`
+        Press `Shift + y`
+        And then Press Enter
+
+        Check whehter php is enabled in apache2 by accessing below url
+
+        http://localhost/info.php
+
+/////////////////////////////////////////////////////////////////////
 Installing PHPmyadmin:
 
+    *********************  Important *****************************
     Note: when installing phpmyadmin, in terminal it asks, for select server
 
-    select option with space bar, (*) mark should appear infront of apache2, and then tab for selecting ok and press enter
-    [*]Apache2
-    []lighthttpd
+        select option with space bar, (*) mark should appear infront of apache2, and then tab for selecting ok and press enter
 
-    Next step in select dbconfig-common, select yes, and add a password
+        [*]Apache2
+        [ ]lighthttpd
 
-    $ sudo apt-get install phpmyadmin
+        Next step in select dbconfig-common, select yes, and add a password
 
-    $ sudo systemctl reload apache2
+    * $ sudo apt-get install phpmyadmin
 
-    Next access http://localhost/phpmyadmin
+    * $ sudo systemctl reload apache2
 
-    and login in with username and password we added after installing mariadb
+    To check phpmyadmin is working
 
-Enable Mod rewrite:
+        Visit http://localhost/phpmyadmin
 
-    $ sudo a2enmod rewrite
-    $ sudo systemctl restart apache2
+        **********************************
+        and login in with username(maxx) and password(maxx123) we added after installing mariadb
 
-Enabling ssl (https)
+/////////////////////////////////////////////////////////////////////
+Creating development local ssl certificates
 
-    $ sudo a2enmod ssl
-    $ sudo systemctl restart apache2
-    $ sudo mkdir /etc/apache2/ssl
-    $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/apache.key -out /etc/apache2/ssl/apache.crt
+    * $ sudo a2enmod ssl
+    * $ sudo systemctl restart apache2
+    * $ sudo mkdir /etc/apache2/ssl
+    * $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/apache.key -out /etc/apache2/ssl/apache.crt
 
-    the paths mentioned for .key and .crt file need to be used for sites which are going to be accessed via https
+    Note:
+        remember the path for your created ssl files i.e; 
+            /etc/apache2/ssl/apache.key
+            /etc/apache2/ssl/apache.crt
 
-Changing php.ini file
+    the paths mentioned for .key and .crt file need to be added for sites vhost conf files which are going to be accessed via https
 
-    $ sudo gedit /etc/php/7.4/apache2/php.ini 
-    $ service apache2 restart
 
+/////////////////////////////////////////////////////////////////////
 Add the virutal domains and hosts
+
+    Note: 
+    ******************
+    Some basic info:
+
+    1. You need to add your vhost files in folder `/etc/apache2/sites-available/`
+    2. For http based virutal hosts i.e., http://example.com, add you vhost configuration in `000-default.conf` file
+    3. For https based virutal hosts i.e., https://example.com, add you vhost configuration in `default-ssl.conf` file
+    4. You can create seperate vhost conf files each domain, if you want.
+
+    ******************
 
     Adding domains
 
@@ -138,17 +237,10 @@ Add the virutal domains and hosts
     Adding virual hosts
 
     $ cd /etc/apache2/sites-available/
-    $ sudo nano default-ssl.conf 
+    $ sudo nano default-ssl.conf
     $ sudo nano 000-default.conf
 
     $ sudo a2ensite default-ssl.conf
     $ sudo a2ensite 000-default.conf
 
     $ sudo systemctl reload apache2
-
-Apache Live Errors:
-
-    $ cd /etc/apache2/
-    $ ls -a
-    $ tail -f error.log 
-    $ tail -f /var/log/apache2/error.log

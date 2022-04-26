@@ -23,3 +23,8 @@ Enabling required php version
 
 Restarting apache
     $ sudo systemctl restart apache2
+
+Changing php.ini file
+
+    $ sudo gedit /etc/php/7.4/apache2/php.ini 
+    $ service apache2 restart

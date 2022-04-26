@@ -1,0 +1,3 @@
+Importing db from command line:
+
+    $ mariadb -u root -p pandora < pandora.sql

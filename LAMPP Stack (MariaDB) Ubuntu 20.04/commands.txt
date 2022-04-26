@@ -13,8 +13,8 @@ Open terminal by pressing `Ctrl + Alt + t`
 
 Run apt update and apt upgrade
 
-    * $ sudo apt-get update
-    * $ sudo apt-get upgrade
+    ''' $ sudo apt-get update
+    ''' $ sudo apt-get upgrade
 
     Restart system if possible
 
